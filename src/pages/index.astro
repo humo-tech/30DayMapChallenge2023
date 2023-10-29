@@ -2,8 +2,10 @@
 import Layout from '@/layouts/Layout.astro'
 import Card from '@/components/Card.astro'
 import { SITE_TITLE } from '../consts'
+import { getCollection } from 'astro:content';
 
-const days = await Astro.glob('./days/*.*')
+const days = await getCollection('days');
+const baseUrl = import.meta.env.BASE_URL
 ---
 
 <Layout title={SITE_TITLE}>
@@ -44,7 +46,7 @@ const days = await Astro.glob('./days/*.*')
       /></a
     >
     <ul role="list" class="link-card-grid">
-      {days.map((day) => <Card href={`${day.url}/`} title={day.title} body={day.description} />)}
+      {days.map((day) => <Card href={`${baseUrl}/days/${day.slug}/`} title={day.data.title} body={day.data.description} />)}
     </ul>
   </main>
 </Layout>
