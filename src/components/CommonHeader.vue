@@ -3,6 +3,7 @@ const baseUrl = import.meta.env.BASE_URL
 
 defineProps({
   title: { type: String, default: '' },
+  subtitle: { type: String, default: '' },
   description: { type: String, default: '' },
 })
 </script>
@@ -21,6 +22,7 @@ defineProps({
       </h2>
       <div>
         <h1>{{ title }}</h1>
+        <p class="subtitle">{{ subtitle }}</p>
         <p class="description">{{ description }}</p>
       </div>
       <a :href="baseUrl" target="_blank">
@@ -43,6 +45,9 @@ header {
   width: 100%;
   color: #fff;
   margin-bottom: 20px;
+  z-index: 10;
+  background-color: #0003;
+  text-shadow: 1px 1px 0px #000;
 }
 nav {
   padding: 5px 15px 5px;
@@ -54,7 +59,13 @@ h2 {
   margin: 0;
   text-align: center;
 }
-.description {
+.description,
+.subtitle {
   margin: 0;
+  text-align: center;
+}
+.description {
+  color: #ccc;
+  font-style: italic;
 }
 </style>
