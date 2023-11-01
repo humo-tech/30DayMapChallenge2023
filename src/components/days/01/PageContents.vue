@@ -29,7 +29,7 @@ onMounted(() => {
       type: 'circle',
       paint: {
         'circle-color': '#d6d854',
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 10, 15, 5],
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 10, 15, 5],
         'circle-blur': 3,
         'circle-opacity': 0.4,
       },
@@ -40,7 +40,7 @@ onMounted(() => {
       type: 'circle',
       paint: {
         'circle-color': '#ffff00',
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 5, 15, 2],
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 5, 15, 2],
         'circle-blur': 3,
         'circle-opacity': 0.4,
       },
@@ -50,8 +50,8 @@ onMounted(() => {
       source: 'points',
       type: 'circle',
       paint: {
-        'circle-color': ['interpolate', ['linear'], ['zoom'], 7, '#ffffff', 15, '#ff9'],
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 7, 1, 15, 3],
+        'circle-color': ['interpolate', ['linear'], ['zoom'], 10, '#ffffff', 15, '#ffc'],
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 1, 15, 3],
         'circle-blur': 0,
         'circle-opacity': 1,
       },
