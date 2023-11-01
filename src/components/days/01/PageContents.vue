@@ -1,69 +1,70 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { WebGLUtility, ShaderProgram } from '@/scripts/webgl.js'
-import vertexShaderSource from './shaders/vert.glsl?raw'
-import fragmentShaderSource from './shaders/frag.glsl?raw'
-const canvas = ref(null)
+import mapboxgl from 'mapbox-gl'
+import { MAPBOX_ACCESS_TOKEN } from '@/consts'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
-let gl = null
-let shaderProgram = null
-const vbo = []
-let positions = []
+const baseUrl = import.meta.env.BASE_URL
 
-const init = () => {
-  canvas.value.width = window.innerWidth
-  canvas.value.height = window.innerHeight
+let map
+const mapElem = ref(null)
 
-  window.addEventListener('resize', resize)
-}
-
-const load = () => {
-  gl = canvas.value.getContext('webgl')
-
-  shaderProgram = new ShaderProgram(gl, {
-    vertexShaderSource,
-    fragmentShaderSource,
-    attribute: ['position'],
-    stride: [3],
-  })
-}
-
-const setup = () => {
-  setupGeometry()
-  gl.clearColor(0.1, 0.1, 0.1, 1.0)
-}
-
-const setupGeometry = () => {
-  // 場所決める
-  positions = [-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.0, 0.0, -0.5, 0.5, 0.0, 0.5, 0.5, 0.0]
-  vbo[0] = WebGLUtility.createVbo(gl, positions)
-}
-
-const render = () => {
-  gl.viewport(0, 0, canvas.value.width, canvas.value.height)
-  gl.clear(gl.COLOR_BUFFER_BIT)
-
-  shaderProgram.use()
-  shaderProgram.setAttribute(vbo)
-
-  gl.drawArrays(gl.POINTS, 0, positions.length / 3)
-}
-
-const resize = () => {
-  canvas.value.width = window.innerWidth
-  canvas.value.height = window.innerHeight
-
-  render()
-}
-
+mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN
 onMounted(() => {
-  init()
-  load()
-  setup()
-  render()
+  map = new mapboxgl.Map({
+    container: mapElem.value,
+    style: 'mapbox://styles/mapbox/dark-v11',
+    center: [135, 36],
+    zoom: 4.5,
+    maxZoom: 10,
+    customAttribution: ['<a href="https://overturemaps.org/">Overture Maps</a>'],
+  })
+  map.on('load', () => {
+    map.addSource('points', { type: 'geojson', data: `${baseUrl}/days/01/coffee_shop.geojson` })
+    map.addLayer({
+      id: 'points0',
+      source: 'points',
+      type: 'circle',
+      paint: {
+        'circle-color': '#d6d854',
+        'circle-radius': 10,
+        'circle-blur': 3,
+        'circle-opacity': 0.4,
+      },
+    })
+    map.addLayer({
+      id: 'points1',
+      source: 'points',
+      type: 'circle',
+      paint: {
+        'circle-color': '#ffff00',
+        'circle-radius': 5,
+        'circle-blur': 3,
+        'circle-opacity': 0.4,
+      },
+    })
+    map.addLayer({
+      id: 'points2',
+      source: 'points',
+      type: 'circle',
+      paint: {
+        'circle-color': '#ffffff',
+        'circle-radius': 1,
+        'circle-blur': 0,
+        'circle-opacity': 1,
+      },
+    })
+  })
 })
 </script>
 
 <template>
-  <canvas ref="canvas" id="canvas"></canvas>
+  <div ref="mapElem" class="map"></div>
 </template>
+
+<style scoped>
+.map {
+  width: 100%;
+  height: 100%;
+}
+</style>
