@@ -5,4 +5,4 @@ export const SITE_TITLE = '30 Day Map Challenge 2023'
 export const SITE_DESCRIPTION = 'Welcome to my website!'
 
 export const MAPBOX_ACCESS_TOKEN =
-  'pk.eyJ1IjoieWFuby1oIiwiYSI6ImNqeGFkenQ2NzE1c3MzcW44eng1d2ppMmEifQ.K_qwYjur0Aw061tYdyo4DQ'
+  'pk.eyJ1IjoieWFuby1oIiwiYSI6ImNsb2Z6YTFhajAzZ2Uyd3Brc3BiOXlhaHgifQ.v1wFw2cWChC0dVvF63A83A'
