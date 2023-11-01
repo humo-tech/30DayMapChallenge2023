@@ -16,7 +16,7 @@ onMounted(() => {
     style: 'mapbox://styles/mapbox/dark-v11',
     center: [135, 36],
     zoom: 4.5,
-    maxZoom: 10,
+    maxZoom: 15,
     customAttribution: ['<a href="https://overturemaps.org/">Overture Maps</a>'],
     hash: true,
     projection: 'mercator',
@@ -29,7 +29,7 @@ onMounted(() => {
       type: 'circle',
       paint: {
         'circle-color': '#d6d854',
-        'circle-radius': 10,
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 10, 15, 5],
         'circle-blur': 3,
         'circle-opacity': 0.4,
       },
@@ -40,7 +40,7 @@ onMounted(() => {
       type: 'circle',
       paint: {
         'circle-color': '#ffff00',
-        'circle-radius': 5,
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 5, 15, 2],
         'circle-blur': 3,
         'circle-opacity': 0.4,
       },
@@ -50,8 +50,8 @@ onMounted(() => {
       source: 'points',
       type: 'circle',
       paint: {
-        'circle-color': '#ffffff',
-        'circle-radius': 1,
+        'circle-color': ['interpolate', ['linear'], ['zoom'], 7, '#ffffff', 15, '#ff9'],
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 7, 1, 15, 3],
         'circle-blur': 0,
         'circle-opacity': 1,
       },
