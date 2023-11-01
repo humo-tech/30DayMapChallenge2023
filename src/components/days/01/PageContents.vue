@@ -18,6 +18,8 @@ onMounted(() => {
     zoom: 4.5,
     maxZoom: 10,
     customAttribution: ['<a href="https://overturemaps.org/">Overture Maps</a>'],
+    hash: true,
+    projection: 'mercator',
   })
   map.on('load', () => {
     map.addSource('points', { type: 'geojson', data: `${baseUrl}/days/01/coffee_shop.geojson` })
