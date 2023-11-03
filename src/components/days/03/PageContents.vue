@@ -11,6 +11,7 @@ const mapName = '30daymapchallenge'
 const region = 'ap-northeast-1'
 
 let map
+let popup
 const mapElem = ref(null)
 
 const colors = {
@@ -64,6 +65,8 @@ onMounted(async () => {
   })
 
   map.on('load', () => {
+    popup = new maplibregl.Popup({ closeOnClick: false }).addTo(map)
+
     map.addSource('class', { type: 'vector', url: 'pmtiles://https://humo.tech/30daymapchallenge/class_kanto.pmtiles' })
     map.addLayer({
       id: 'class',
@@ -82,6 +85,9 @@ onMounted(async () => {
         ],
         'fill-opacity': 0.7,
       },
+    })
+    map.on('click', 'class', (e) => {
+      popup.setLngLat(e.lngLat).setHTML(e.features[0].properties.class).addTo(map)
     })
   })
 })
@@ -114,5 +120,17 @@ ul {
 }
 .text {
   color: #fff;
+}
+</style>
+
+<style is:global>
+.maplibregl-popup-content {
+  background: #201919;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+}
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #201919;
 }
 </style>
