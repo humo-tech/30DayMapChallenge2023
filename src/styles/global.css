@@ -1,0 +1,9 @@
+.maplibregl-popup-content {
+  background: #201919;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+}
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #201919;
+}
