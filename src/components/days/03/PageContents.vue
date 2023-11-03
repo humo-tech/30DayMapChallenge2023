@@ -48,10 +48,10 @@ const colors = {
 
 // addProtocol for reading PMTiles
 // https://qiita.com/Kanahiro/items/577f7828c5a1e323721a
-const protocol = new pmtiles.Protocol()
-maplibregl.addProtocol('pmtiles', protocol.tile)
 
 onMounted(async () => {
+  const protocol = new pmtiles.Protocol()
+  maplibregl.addProtocol('pmtiles', protocol.tile)
   map = new maplibregl.Map({
     container: mapElem.value,
     style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor?key=${apiKey}`,
@@ -120,17 +120,5 @@ ul {
 }
 .text {
   color: #fff;
-}
-</style>
-
-<style is:global>
-.maplibregl-popup-content {
-  background: #201919;
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 18px;
-}
-.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
-  border-top-color: #201919;
 }
 </style>
