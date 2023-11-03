@@ -1,0 +1,27 @@
+WITH area as (
+select ST_GeomFromBinary(geometry) as wkt from admins
+where st_contains(
+        -- first filter JAPAN
+		st_geometryfromtext(
+			'POLYGON ((138.54061870592375 45.85090398426442, 136.74770783204372 41.961544151144636, 135.3519617989994 40.05362339094381, 129.9756606862823 35.49872193506023, 124.77468677587092 31.41179308575383, 122.30561250064619 22.940636334895444, 141.4177092846486 25.606596782255963, 146.78224945552336 30.615173390428836, 148.95496231364433 46.209555039585524, 138.54061870592375 45.85090398426442))'
+		),
+		ST_GeomFromBinary(geometry)
+	)
+	and names['common'][1]['value'] = 'Kanto'
+)
+
+select 
+class,
+ST_GeomFromBinary(geometry) as wkt
+from overture_2023_10_19_alpha_0, area
+where type = 'land'
+    AND ST_GeometryType(ST_GeomFromBinary(geometry)) like '%Polygon' -- get rid of point feature
+	AND st_contains(
+        area.wkt,
+		ST_GeomFromBinary(geometry)
+	)
+	and (  -- remove some big rectangles
+	    ST_NumPoints(ST_GeomFromBinary(geometry)) > 4
+	    and ST_Area(ST_GeomFromBinary(geometry)) < 0.01
+	)
+	and class is not null
