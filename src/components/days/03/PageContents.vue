@@ -6,8 +6,8 @@ import { AWS_LOCATIONSERVICE_APIKEY } from '@/consts'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 const apiKey = AWS_LOCATIONSERVICE_APIKEY
-// const mapName = 'EsriImagery'
-const mapName = '30daymapchallenge'
+const mapName = 'EsriImagery'
+// const mapName = '30daymapchallenge'
 const region = 'ap-northeast-1'
 
 let map
@@ -83,7 +83,7 @@ onMounted(async () => {
           }, []),
           '#000',
         ],
-        'fill-opacity': 0.7,
+        'fill-opacity': 0.8,
       },
     })
     map.on('click', 'class', (e) => {
