@@ -46,7 +46,7 @@ header {
   color: #fff;
   margin-bottom: 20px;
   z-index: 10;
-  background-color: #0003;
+  background-color: #0009;
   text-shadow: 1px 1px 0px #000;
 }
 nav {
