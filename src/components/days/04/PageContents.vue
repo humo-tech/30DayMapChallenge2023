@@ -35,6 +35,9 @@ const createMarker = () => {
   const child = document.createElement('div')
   child.className = 'marker-child'
   el.appendChild(child)
+  const grandchild = document.createElement('div')
+  grandchild.className = 'marker-grandchild'
+  child.appendChild(grandchild)
   marker = new mapboxgl.Marker({ element: el, draggable: true }).setLngLat(map.getCenter()).addTo(map)
   marker.on('dragend', resetMarkerPosition)
   map.on('moveend', resetMarkerPosition)
@@ -67,7 +70,7 @@ ul {
 </style>
 
 <style>
-.marker-child {
+.marker-grandchild {
   background-image: v-bind(iconImage);
   background-size: cover;
   width: 240px;
@@ -76,6 +79,9 @@ ul {
   filter: drop-shadow(3px 3px 1px #000);
   animation: skew 3s alternate infinite ease-in-out;
 }
+.marker-child:hover {
+  animation: scale 0.5s alternate infinite ease-in-out;
+}
 
 @keyframes skew {
   from {
@@ -83,6 +89,11 @@ ul {
   }
   to {
     transform: skew(10deg, 0deg);
+  }
+}
+@keyframes scale {
+  to {
+    transform: scale(1.5);
   }
 }
 </style>
