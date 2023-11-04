@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 const baseUrl = import.meta.env.BASE_URL
 const iconImage = `url(${baseUrl}/days/04/clippy.png)`
+const kairuImage = `url(${baseUrl}/days/04/kairu.png)`
 
 let map
 let marker
@@ -30,8 +31,10 @@ const resetMarkerPosition = () => {
 }
 
 const createMarker = () => {
+  const params = new URLSearchParams(location.search)
   const el = document.createElement('div')
   el.className = 'marker'
+  if (params.has('kairu')) el.classList.add('kairu')
   const child = document.createElement('div')
   child.className = 'marker-child'
   el.appendChild(child)
@@ -81,6 +84,9 @@ ul {
 }
 .marker-child:hover {
   animation: scale 0.5s alternate infinite ease-in-out;
+}
+.marker.kairu .marker-grandchild {
+  background-image: v-bind(kairuImage);
 }
 
 @keyframes skew {
