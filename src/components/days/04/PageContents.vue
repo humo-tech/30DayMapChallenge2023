@@ -75,7 +75,8 @@ ul {
 <style>
 .marker-grandchild {
   background-image: v-bind(iconImage);
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   width: 240px;
   height: 240px;
   cursor: pointer;
