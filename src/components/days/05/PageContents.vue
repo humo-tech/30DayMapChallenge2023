@@ -38,7 +38,7 @@ const init = () => {
       cameraZ: 0.35,
     },
   }
-  const gltfMode = params.has('old') ? 'old' : 'new'
+  const gltfMode = params.get('mode') === 'new' ? 'old' : 'new'
   const loader = new GLTFLoader()
   loader.load(`${baseUrl}/days/05/${gltfConfig[gltfMode].file}`, (gltf) => {
     group.position.y = gltfConfig[gltfMode].positionY
