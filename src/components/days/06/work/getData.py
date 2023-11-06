@@ -14,9 +14,8 @@ df_area = pd.read_csv('FAOSTAT_data_11-6-2023.csv')
 
 df = df.merge(df_area, left_on="Area Code", right_on="Country Code")
 
-required_field = ['ISO2 Code', 'Area']
+required_field = ['ISO2 Code']
 for year in range (1961, 2022):
     required_field.append(f'Y{year}')
-
 
 df.to_csv('output.csv', columns=required_field, index=False)

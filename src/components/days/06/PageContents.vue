@@ -58,10 +58,10 @@ const loadYieldData = () => {
       const [header, ...body] = text.split(/[\r\n]/)
       const headers = header.split(/,/)
       return body.reduce((prev, curr) => {
-        const [code, name, ...yields] = curr.split(/,/)
-        prev[code] = { name }
+        const [code, ...yields] = curr.split(/,/)
+        prev[code] = {}
         yields.forEach((value, index) => {
-          prev[code][headers[index + 2]] = Number(value)
+          prev[code][headers[index + 1]] = Number(value)
         })
         return prev
       }, {})
