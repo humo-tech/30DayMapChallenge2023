@@ -106,6 +106,12 @@ onMounted(async () => {
     ],
   })
 
+  map.on('click', 'country_fill', (e) => {
+    const isoCode = e.features[0].properties.ISO_A2_EH
+    const value = yieldData?.[isoCode]?.[`Y${year.value}`] || 0
+    console.log(isoCode, value)
+  })
+
   map.on('load', () => {
     setData(year.value)
   })
