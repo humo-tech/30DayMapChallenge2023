@@ -10,6 +10,10 @@ const mapElem = ref(null)
 let yieldData = {}
 const year = ref(1961)
 let clearId = null
+const minValue = 5000
+const maxValue = 80000
+const minColor = '#fcc'
+const maxColor = '#f00'
 
 const style = {
   version: 8,
@@ -17,7 +21,7 @@ const style = {
     country: {
       type: 'geojson',
       data: `${baseUrl}/common/ne_110m_admin_0_countries.geojson`,
-      promoteId: 'ISO_A2',
+      promoteId: 'ISO_A2_EH',
     },
   },
   layers: [
@@ -26,8 +30,15 @@ const style = {
       source: 'country',
       type: 'fill',
       paint: {
-        'fill-color': ['interpolate', ['linear'], ['feature-state', 'yield'], 0, '#000', 300000, '#f00'],
+        'fill-color': ['interpolate', ['linear'], ['feature-state', 'yield'], minValue, minColor, maxValue, maxColor],
       },
+      filter: ['==', 'CONTINENT', 'Asia'],
+    },
+    {
+      id: 'country_line_edge',
+      source: 'country',
+      type: 'line',
+      paint: { 'line-color': '#002', 'line-width': 5, 'line-blur': 4 },
       filter: ['==', 'CONTINENT', 'Asia'],
     },
     {
@@ -68,8 +79,17 @@ const anim = () => {
     year.value++
     clearId = setTimeout(anim, 500)
   } else {
-    clearTimeout(clearId)
+    stop()
   }
+}
+const stop = () => {
+  clearTimeout(clearId)
+  clearId = null
+}
+
+const toggleAnim = () => {
+  if (clearId) stop()
+  else anim()
 }
 
 onMounted(async () => {
@@ -101,7 +121,12 @@ watch(year, () => {
   <div class="control">
     <div class="year">{{ year }}</div>
     <input type="range" min="1961" max="2021" v-model.number="year" />
-    <button @click="anim()">▶</button>
+    <button @click="toggleAnim()">▶</button>
+  </div>
+  <div class="scale">
+    <span>{{ minValue.toLocaleString() }}</span>
+    <div class="scale-bar"></div>
+    <span>{{ maxValue.toLocaleString() }} (100g/ha)</span>
   </div>
   <img :src="`${baseUrl}/days/06/flower_ine.png`" />
 </template>
@@ -129,5 +154,22 @@ img {
   top: 100px;
   left: 40px;
   width: 200px;
+}
+.scale {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  color: #fff;
+  display: flex;
+  font-size: 20px;
+  background-color: #3339;
+  padding: 20px;
+}
+.scale-bar {
+  width: 200px;
+  height: 1em;
+  background: linear-gradient(to right, v-bind(minColor), v-bind(maxColor));
+  border: 1px solid #fff;
+  margin: 0 5px;
 }
 </style>
