@@ -79,8 +79,17 @@ const anim = () => {
     year.value++
     clearId = setTimeout(anim, 500)
   } else {
-    clearTimeout(clearId)
+    stop()
   }
+}
+const stop = () => {
+  clearTimeout(clearId)
+  clearId = null
+}
+
+const toggleAnim = () => {
+  if (clearId) stop()
+  else anim()
 }
 
 onMounted(async () => {
@@ -112,7 +121,7 @@ watch(year, () => {
   <div class="control">
     <div class="year">{{ year }}</div>
     <input type="range" min="1961" max="2021" v-model.number="year" />
-    <button @click="anim()">▶</button>
+    <button @click="toggleAnim()">▶</button>
   </div>
   <img :src="`${baseUrl}/days/06/flower_ine.png`" />
 </template>
