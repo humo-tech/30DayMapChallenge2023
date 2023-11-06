@@ -10,6 +10,10 @@ const mapElem = ref(null)
 let yieldData = {}
 const year = ref(1961)
 let clearId = null
+const minValue = 5000
+const maxValue = 80000
+const minColor = '#fcc'
+const maxColor = '#f00'
 
 const style = {
   version: 8,
@@ -26,8 +30,15 @@ const style = {
       source: 'country',
       type: 'fill',
       paint: {
-        'fill-color': ['interpolate', ['linear'], ['feature-state', 'yield'], 0, '#000', 300000, '#f00'],
+        'fill-color': ['interpolate', ['linear'], ['feature-state', 'yield'], minValue, minColor, maxValue, maxColor],
       },
+      filter: ['==', 'CONTINENT', 'Asia'],
+    },
+    {
+      id: 'country_line_edge',
+      source: 'country',
+      type: 'line',
+      paint: { 'line-color': '#002', 'line-width': 5, 'line-blur': 4 },
       filter: ['==', 'CONTINENT', 'Asia'],
     },
     {
