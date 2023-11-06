@@ -123,6 +123,11 @@ watch(year, () => {
     <input type="range" min="1961" max="2021" v-model.number="year" />
     <button @click="toggleAnim()">▶</button>
   </div>
+  <div class="scale">
+    <span>{{ minValue.toLocaleString() }}</span>
+    <div class="scale-bar"></div>
+    <span>{{ maxValue.toLocaleString() }} (100g/ha)</span>
+  </div>
   <img :src="`${baseUrl}/days/06/flower_ine.png`" />
 </template>
 
@@ -149,5 +154,22 @@ img {
   top: 100px;
   left: 40px;
   width: 200px;
+}
+.scale {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  color: #fff;
+  display: flex;
+  font-size: 20px;
+  background-color: #3339;
+  padding: 20px;
+}
+.scale-bar {
+  width: 200px;
+  height: 1em;
+  background: linear-gradient(to right, v-bind(minColor), v-bind(maxColor));
+  border: 1px solid #fff;
+  margin: 0 5px;
 }
 </style>
