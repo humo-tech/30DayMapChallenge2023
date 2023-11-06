@@ -21,7 +21,7 @@ const style = {
     country: {
       type: 'geojson',
       data: `${baseUrl}/common/ne_110m_admin_0_countries.geojson`,
-      promoteId: 'ISO_A2',
+      promoteId: 'ISO_A2_EH',
     },
   },
   layers: [
