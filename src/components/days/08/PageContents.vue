@@ -52,6 +52,7 @@ const style = {
       source: 'country',
       type: 'symbol',
       layout: {
+        'symbol-sort-key': ['/', 1, ['get', 'POP_EST']],
         'text-padding': 0,
         'text-field': [
           'format',
