@@ -9,8 +9,8 @@ let map
 const mapElem = ref(null)
 const minValue = 1000000
 const maxValue = 200000000
-const minColor = '#fcc'
-const maxColor = '#f00'
+const minColor = '#010'
+const maxColor = '#0f7'
 
 const filter = ['==', 'CONTINENT', 'Africa']
 const style = {
