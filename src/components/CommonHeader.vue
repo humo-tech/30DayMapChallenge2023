@@ -5,6 +5,7 @@ defineProps({
   title: { type: String, default: '' },
   subtitle: { type: String, default: '' },
   description: { type: String, default: '' },
+  githubURL: { type: String, default: '' },
 })
 </script>
 
@@ -25,7 +26,7 @@ defineProps({
         <p class="subtitle">{{ subtitle }}</p>
         <p class="description">{{ description }}</p>
       </div>
-      <a :href="`https://github.com/humo-tech${baseUrl}/`" target="_blank">
+      <a :href="githubURL" target="_blank">
         <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32">
           <path
             fill="#fff"
