@@ -58,10 +58,10 @@ const loadYieldData = () => {
       const [header, ...body] = text.split(/[\r\n]/)
       const headers = header.split(/,/)
       return body.reduce((prev, curr) => {
-        const [code, name, ...yields] = curr.split(/,/)
-        prev[code] = { name }
+        const [code, ...yields] = curr.split(/,/)
+        prev[code] = {}
         yields.forEach((value, index) => {
-          prev[code][headers[index + 2]] = Number(value)
+          prev[code][headers[index + 1]] = Number(value)
         })
         return prev
       }, {})
@@ -104,6 +104,12 @@ onMounted(async () => {
       '<a href="https://www.naturalearthdata.com/">Natural Earth</a>',
       '<a href="https://www.fao.org/faostat/">FAOSTAT</a>',
     ],
+  })
+
+  map.on('click', 'country_fill', (e) => {
+    const isoCode = e.features[0].properties.ISO_A2_EH
+    const value = yieldData?.[isoCode]?.[`Y${year.value}`] || 0
+    console.log(isoCode, value)
   })
 
   map.on('load', () => {
