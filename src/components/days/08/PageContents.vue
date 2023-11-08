@@ -37,14 +37,14 @@ const style = {
       id: 'country_line_edge',
       source: 'country',
       type: 'line',
-      paint: { 'line-color': '#002', 'line-width': 14, 'line-blur': 3 },
+      paint: { 'line-color': '#002', 'line-width': 10, 'line-blur': 0 },
       filter,
     },
     {
       id: 'country_line',
       source: 'country',
       type: 'line',
-      paint: { 'line-color': '#fff', 'line-width': 3 },
+      paint: { 'line-color': '#fff', 'line-width': 2 },
       filter,
     },
     {
@@ -58,16 +58,16 @@ const style = {
           ['number-format', ['/', ['get', 'POP_EST'], 1000000], { 'min-fraction-digits': 1, 'max-fraction-digits': 1 }],
           { 'font-scale': 1 },
           '\n',
-          { 'font-scale': 0.7 },
+          { 'font-scale': 0.8 },
           ['concat', ['concat', '(', ['get', 'ADMIN']], ')'],
           { 'font-scale': 0.5 },
         ],
-        'text-size': 24,
+        'text-size': ['interpolate', ['linear'], ['get', 'POP_EST'], minValue * 10, 20, maxValue, 28],
         'text-max-width': 5,
       },
       paint: {
         'text-halo-color': '#fff',
-        'text-halo-width': 2.5,
+        'text-halo-width': 2.3,
       },
       filter,
     },
@@ -78,9 +78,8 @@ onMounted(async () => {
   map = new maplibregl.Map({
     container: mapElem.value,
     style,
-    center: [15, -5],
-    zoom: 3.3,
-    pitch: 40,
+    center: [15, 5],
+    zoom: 2.9,
     customAttribution: ['<a href="https://www.naturalearthdata.com/" target="_blank">Natural Earth</a>'],
   })
 
