@@ -37,14 +37,14 @@ const style = {
       id: 'country_line_edge',
       source: 'country',
       type: 'line',
-      paint: { 'line-color': '#002', 'line-width': 5, 'line-blur': 4 },
+      paint: { 'line-color': '#002', 'line-width': 14, 'line-blur': 3 },
       filter,
     },
     {
       id: 'country_line',
       source: 'country',
       type: 'line',
-      paint: { 'line-color': '#fff', 'line-width': 1 },
+      paint: { 'line-color': '#fff', 'line-width': 3 },
       filter,
     },
     {
