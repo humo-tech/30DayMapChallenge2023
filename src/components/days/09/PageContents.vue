@@ -19,9 +19,9 @@ onMounted(async () => {
   map = new maplibregl.Map({
     container: mapElem.value,
     style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor?key=${apiKey}`,
-    center: [132.98, 31.28],
-    pitch: 42,
-    zoom: 4.46,
+    center: [137.536, 35.684],
+    pitch: 46,
+    zoom: 7.12,
     maxZoom: 15,
     customAttribution: ['<a href="https://overturemaps.org/" target="_blank">Overture Maps</a>'],
     hash: true,
