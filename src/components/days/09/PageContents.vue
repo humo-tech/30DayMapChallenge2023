@@ -23,9 +23,7 @@ onMounted(async () => {
     pitch: 42,
     zoom: 4.46,
     maxZoom: 15,
-    customAttribution: [
-      '<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-S10b-v1_1.html">国土数値情報 空港間流通量データ</a>',
-    ],
+    customAttribution: ['<a href="https://overturemaps.org/" target="_blank">Overture Maps</a>'],
     hash: true,
     projection: 'mercator',
   })
