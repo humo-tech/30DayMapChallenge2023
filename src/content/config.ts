@@ -7,6 +7,7 @@ const days = defineCollection({
     title: z.string(),
     subtitle: z.string(),
     description: z.string(),
+    thumb: z.string(),
   }),
 })
 // 3. コレクションを登録するために、単一の`collections`オブジェクトをエクスポート
