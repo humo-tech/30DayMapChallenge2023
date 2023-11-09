@@ -23,16 +23,32 @@ const init = () => {
   group = new Group()
   scene.add(group)
 
+  const params = new URLSearchParams(location.search)
+  const gltfConfig = {
+    old: {
+      file: '3Ddata.glb',
+      positionY: -0.55,
+      rotationY: 2.7,
+      cameraZ: 0.6,
+    },
+    new: {
+      file: '3Ddata2.glb',
+      positionY: -0.38,
+      rotationY: 0,
+      cameraZ: 0.35,
+    },
+  }
+  const gltfMode = params.get('mode') === 'new' ? 'old' : 'new'
   const loader = new GLTFLoader()
-  loader.load(`${baseUrl}/days/05/3Ddata.glb`, (gltf) => {
-    group.position.y = -0.55
-    group.rotation.y = 2.7
+  loader.load(`${baseUrl}/days/05/${gltfConfig[gltfMode].file}`, (gltf) => {
+    group.position.y = gltfConfig[gltfMode].positionY
+    group.rotation.y = gltfConfig[gltfMode].rotationY
     group.add(gltf.scene)
   })
   controls = new OrbitControls(camera, renderer.domElement)
   controls.autoRotate = true
   controls.autoRotateSpeed = 2.0
-  camera.position.set(0, 0.2, 0.6)
+  camera.position.set(0, 0.2, gltfConfig[gltfMode].cameraZ)
   camera.lookAt(new Vector3(0, 0, 0))
   controls.update()
 }
