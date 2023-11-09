@@ -17,6 +17,7 @@
     "@astrojs/vue": "^3.0.2",
     "@aws-sdk/client-location": "^3.441.0",
     "@aws/amazon-location-utilities-auth-helper": "^1.0.3",
+    "@deck.gl/aggregation-layers": "^8.9.32",
     "@deck.gl/layers": "^8.7.9",
     "@deck.gl/mapbox": "^8.7.9",
     "astro": "^3.4.0",
