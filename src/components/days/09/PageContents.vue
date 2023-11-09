@@ -31,7 +31,7 @@ onMounted(async () => {
   })
 
   const data = await fetch(`${baseUrl}/days/09/honey.geojson`).then((res) => res.json())
-  const arcLayer = new MapboxLayer({
+  const hexagonLayer = new MapboxLayer({
     type: HexagonLayer,
     id: 'hex',
     data: data.features,
@@ -41,7 +41,7 @@ onMounted(async () => {
     getPosition: (d) => d.geometry.coordinates,
   })
   map.on('load', () => {
-    map.addLayer(arcLayer)
+    map.addLayer(hexagonLayer)
   })
 })
 </script>
