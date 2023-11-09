@@ -1,0 +1,18 @@
+SELECT TRY(
+		FILTER(
+			names [ 'common' ],
+			name->name [ 'language' ] = 'local'
+		) [ 1 ] [ 'value' ]
+	) AS name,
+	categories.main AS category,
+	ST_GeomFromBinary(geometry) as wkt
+FROM places
+WHERE confidence > 0.5
+	and st_contains(st_geometryfromtext(
+		'POLYGON ((138.54061870592375 45.85090398426442, 136.74770783204372 41.961544151144636, 135.3519617989994 40.05362339094381, 129.9756606862823 35.49872193506023, 124.77468677587092 31.41179308575383, 122.30561250064619 22.940636334895444, 141.4177092846486 25.606596782255963, 146.78224945552336 30.615173390428836, 148.95496231364433 46.209555039585524, 138.54061870592375 45.85090398426442))'
+	),
+	ST_GeomFromBinary(geometry))
+	and (
+	    regexp_like(lower(names['common'][1]['value']), '(^| )(honey|hunny|bee)( |$)')
+	    or regexp_like(names['common'][1]['value'], '蜂|ハニー|はちみつ|ハチミツ')
+	    )

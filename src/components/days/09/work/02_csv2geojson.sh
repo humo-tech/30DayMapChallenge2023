@@ -1,0 +1,1 @@
+ogr2ogr -f GeoJSON -select name,category ~/Downloads/honey.geojson /Users/yano-h/Downloads/451bd8bf-0e50-444a-816e-d70b7aca6570.csv
