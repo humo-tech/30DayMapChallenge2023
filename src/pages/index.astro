@@ -2,9 +2,9 @@
 import Layout from '@/layouts/Layout.astro'
 import Card from '@/components/Card.astro'
 import { SITE_TITLE } from '../consts'
-import { getCollection } from 'astro:content';
+import { getCollection } from 'astro:content'
 
-const days = await getCollection('days');
+const days = await getCollection('days')
 const baseUrl = import.meta.env.BASE_URL
 ---
 
@@ -39,15 +39,24 @@ const baseUrl = import.meta.env.BASE_URL
       </defs>
     </svg>
     <h1>{SITE_TITLE}</h1>
+    <ul role="list" class="link-card-grid">
+      {
+        days.map((day) => (
+          <Card
+            href={`${baseUrl}/days/${day.slug}/`}
+            title={day.data.title}
+            body={day.data.description}
+            thumb={day.data.thumb}
+          />
+        ))
+      }
+    </ul>
     <a href="https://30daymapchallenge.com/"
       ><img
         src="https://raw.githubusercontent.com/tjukanovt/30DayMapChallenge/main/images/flyers/30dmc-2023.png"
         class="theme"
       /></a
     >
-    <ul role="list" class="link-card-grid">
-      {days.map((day) => <Card href={`${baseUrl}/days/${day.slug}/`} title={day.data.title} body={day.data.description} />)}
-    </ul>
   </main>
 </Layout>
 
