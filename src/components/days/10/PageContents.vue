@@ -104,7 +104,12 @@ onMounted(async () => {
 
   map.on('load', () => {
     circles.forEach((circle, index) => {
-      map.addLayer(new MagicCircleLayer(`circle${index}`, circle.bbox, circle.options))
+      map.addLayer(
+        new MagicCircleLayer(`circle${index}`, circle.bbox, {
+          ...circle.options,
+          noUpdate: index !== 0, // 重複してtriggerRepaintしないように調整
+        })
+      )
     })
 
     map.on('click', (e) => {

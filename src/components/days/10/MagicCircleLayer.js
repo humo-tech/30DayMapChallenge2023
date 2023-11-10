@@ -12,7 +12,9 @@ export class MagicCircleLayer {
    * @param {Object} shaders
    * @param {Object} options
    * @param {Object<Number>} options.splitNumber
-   * @param {Object<Array>} options.colorBalance
+   * @param {Object<Array<Number>>} options.colorBalance
+   * @param {Object<Array<Number>>} options.rotationBalance
+   * @param {Object<Boolean>} options.noUpdate
    * @param {Object<String>} shaders.vertexSource
    * @param {Object<String>} shaders.fragmentSource
    */
@@ -30,6 +32,7 @@ export class MagicCircleLayer {
     this.colorBalance = options?.colorBalance || [0.9, 0.5, 0.8]
     this.rotationBalance = options?.rotationBalance || [1.5, 3.0, 1.0]
     this.splitNumber = options?.splitNumber || 8
+    this.update = !options.noUpdate
 
     this.positions = bbox.map((coord) => maplibregl.MercatorCoordinate.fromLngLat(coord))
   }
@@ -103,7 +106,7 @@ export class MagicCircleLayer {
       gl.uniformMatrix4fv(this.uMatrix, false, matrix)
       gl.uniform1f(this.uTime, (Date.now() - this.startTime) / 1000)
       gl.drawArrays(gl.TRIANGLES, 0, 6)
-      this.map.triggerRepaint()
+      if (this.update) this.map.triggerRepaint()
     }
   }
 }
