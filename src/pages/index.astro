@@ -41,14 +41,16 @@ const baseUrl = import.meta.env.BASE_URL
     <h1>{SITE_TITLE}</h1>
     <ul role="list" class="link-card-grid">
       {
-        days.map((day) => (
-          <Card
-            href={`${baseUrl}/days/${day.slug}/`}
-            title={day.data.title}
-            body={day.data.description}
-            thumb={day.data.thumb}
-          />
-        ))
+        days
+          .reverse()
+          .map((day) => (
+            <Card
+              href={`${baseUrl}/days/${day.slug}/`}
+              title={day.data.title}
+              body={day.data.description}
+              thumb={day.data.thumb}
+            />
+          ))
       }
     </ul>
     <a href="https://30daymapchallenge.com/"
