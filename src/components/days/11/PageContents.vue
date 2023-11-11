@@ -7,7 +7,7 @@ import maplibregl from 'maplibre-gl'
 import { AWS_LOCATIONSERVICE_APIKEY } from '@/consts'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { protocol } from './sepiaColorProtocol'
-maplibregl.addProtocol('converter', protocol)
+maplibregl.addProtocol('sepia', protocol)
 
 dayjs.extend(utc)
 dayjs.extend(isBetween)
@@ -52,7 +52,7 @@ onMounted(async () => {
 
   map.on('load', () => {
     // map.addSource('radar', { type: 'raster', tiles: [`converter://${tileUrl}`], maxzoom: 9 })
-    map.addSource('radar', { type: 'raster', tiles: [`converter://${tileUrl}`], maxzoom: 9 })
+    map.addSource('radar', { type: 'raster', tiles: [`sepia://${tileUrl}`], maxzoom: 9 })
     // map.addSource('radar', { type: 'raster', tiles: [`${tileUrl}`], maxzoom: 9 })
     map.addLayer({
       id: 'radarRaw',
