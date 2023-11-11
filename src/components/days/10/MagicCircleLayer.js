@@ -7,14 +7,13 @@ export class MagicCircleLayer {
   /**
    *
    * @param {String} id
-   * @param {Array} bbox
-   * @param {Array<Array<Number>>} bbox.coordinate
-   * @param {Object} shaders
+   * @param {Array<Array<Number>>} bbox [[lng, lat](left_top), [lng, lat](right_top), [lng, lat](right_bottom), [lng, lat](left_bottom)]
    * @param {Object} options
    * @param {Object<Number>} options.splitNumber
    * @param {Object<Array<Number>>} options.colorBalance
    * @param {Object<Array<Number>>} options.rotationBalance
    * @param {Object<Boolean>} options.noUpdate
+   * @param {Object} shaders
    * @param {Object<String>} shaders.vertexSource
    * @param {Object<String>} shaders.fragmentSource
    */
