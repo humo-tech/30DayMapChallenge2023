@@ -47,6 +47,9 @@ onMounted(async () => {
     style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor?key=${apiKey}`,
     center: [135, 37],
     zoom: 4,
+    customAttribution: [
+      '<a href="https://www.jma.go.jp/bosai/nowc/" target="_blank">気象庁, Japan Meteorological Agency</a>',
+    ],
     hash: true,
   })
 
