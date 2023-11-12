@@ -29,21 +29,20 @@ const testRoute = [
   { center: [135, 37], zoom: 4 },
 ]
 
-const showPerformance = () => {
-  const peformance = performance.getEntriesByName('performance')
-  const durations = peformance.map((p) => p.duration)
-  const totalDuration = durations.reduce((prev, curr) => prev + curr, 0)
+const showStatistics = (data, title) => {
+  console.log(title)
+  const total = data.reduce((prev, curr) => prev + curr, 0)
   console.table({
-    duration: totalDuration / durations.length,
-    count: durations.length,
+    average: total / data.length,
+    count: data.length,
   })
 
-  const max = Math.max(...durations)
-  const min = Math.min(...durations)
+  const max = Math.max(...data)
+  const min = Math.min(...data)
   const classes = 10
   const step = (max - min) / classes
   const histogram = new Array(classes + 1).fill(0)
-  durations.forEach((d) => {
+  data.forEach((d) => {
     const rank = Math.min(Math.floor((d - min) / step), classes)
     histogram[rank]++
   })
@@ -55,6 +54,15 @@ const showPerformance = () => {
       }
     })
   )
+}
+const showPerformance = () => {
+  const peformance = performance.getEntriesByName('performance')
+  const durations = peformance.map((p) => p.duration)
+  showStatistics(durations, 'alldata')
+
+  const num = durations.length
+  const durations95 = durations.sort().slice(Math.round(num * 0.025), Math.round(num * (1 - 0.025)))
+  showStatistics(durations95, '95percentile')
 
   // console.table(durations)
 }
