@@ -1,6 +1,6 @@
 import { WebGLUtil } from './WebglUtil'
 
-export const protocol = (params, callback) => {
+export default (params, callback) => {
   const image = new Image()
 
   image.crossOrigin = 'anonymous'

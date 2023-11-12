@@ -6,6 +6,8 @@ import isBetween from 'dayjs/plugin/isBetween'
 import maplibregl from 'maplibre-gl'
 import { AWS_LOCATIONSERVICE_APIKEY } from '@/consts'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import protocolBy2d from './sepiaColorProtocolBy2d'
+import protocolBy3d from './sepiaColorProtocol'
 
 dayjs.extend(utc)
 dayjs.extend(isBetween)
@@ -92,8 +94,7 @@ const fetchCurrentRadarTime = () => {
 
 onMounted(async () => {
   const params = new URLSearchParams(location.search)
-  const module = params.has('cpu') ? './sepiaColorProtocolBy2d' : './sepiaColorProtocol'
-  const { protocol } = await import(module)
+  const protocol = params.has('cpu') ? protocolBy2d : protocolBy3d
   maplibregl.addProtocol('sepia', protocol)
 
   const tileUrl = await fetchCurrentRadarTileUrl()
