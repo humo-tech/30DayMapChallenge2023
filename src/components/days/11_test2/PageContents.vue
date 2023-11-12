@@ -2,23 +2,22 @@
 import { ref, onMounted, watch } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import { AWS_LOCATIONSERVICE_APIKEY } from '@/consts'
 import protocolBy2d from './gsjDemProtocolBy2d'
 import protocolBy3d from './gsjDemProtocol'
 import colorProtocol from './gsjDemColorProtocol'
-
-const baseUrl = import.meta.env.BASE_URL
 
 let map
 const mapElem = ref(null)
 
 const testCount = ref(null)
 const testRoute = [
-  { center: [115.84, 39.9], zoom: 6 },
-  { center: [150.82, -34.02], zoom: 5 },
-  { center: [52.43, 34.26], zoom: 3 },
-  { center: [9.92, 52.79], zoom: 6 },
-  { center: [-78.01, 38.4], zoom: 7 },
-  { center: [-70.07, -30.08], zoom: 5 },
+  { center: [115.84, 39.9], zoom: 7 },
+  { center: [150.82, -34.02], zoom: 6 },
+  { center: [52.43, 34.26], zoom: 4 },
+  { center: [9.92, 52.79], zoom: 7 },
+  { center: [-78.01, 38.4], zoom: 8 },
+  { center: [-70.07, -30.08], zoom: 6 },
   { center: [135, 37], zoom: 4 },
 ]
 
@@ -74,96 +73,9 @@ watch(testCount, () => {
   }
 })
 
-const style = {
-  version: 8,
-  glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
-  sources: {
-    country: {
-      type: 'geojson',
-      data: `${baseUrl}/common/ne_110m_admin_0_countries.geojson`,
-      attribution: '<a href="https://www.naturalearthdata.com/" target="_blank">Natural Earth</a>',
-    },
-    dem: {
-      type: 'raster-dem',
-      tiles: ['dem://https://tiles.gsj.jp/tiles/elev/mixed/{z}/{y}/{x}.png'],
-      tileSize: 256,
-      maxzoom: 17,
-    },
-    elevation: {
-      type: 'raster',
-      tiles: ['color://https://tiles.gsj.jp/tiles/elev/mixed/{z}/{y}/{x}.png'],
-      tileSize: 256,
-      maxzoom: 17,
-    },
-  },
-  layers: [
-    {
-      id: 'country_fill',
-      source: 'country',
-      type: 'fill',
-      paint: {
-        'fill-color': '#ccc',
-      },
-    },
-    {
-      id: 'country_line',
-      source: 'country',
-      type: 'line',
-      paint: { 'line-color': '#000', 'line-width': 1 },
-    },
-    // {
-    //  id: 'hillshade',
-    //  source: 'dem',
-    //  type: 'hillshade',
-    // },
-    {
-      id: 'demcolor',
-      source: 'elevation',
-      type: 'raster',
-      paint: {
-        // 'raster-opacity': 0.8,
-      },
-    },
-  ],
-  terrain: {
-    source: 'dem',
-    exaggeration: 10,
-  },
-}
-
-const cacheLoadImage = (url) => {
-  if (!cacheLoadImage.cache) cacheLoadImage.cache = {}
-  if (!cacheLoadImage.cache[url]) {
-    cacheLoadImage.cache[url] = loadImage(url)
-  }
-  return cacheLoadImage.cache[url]
-}
-const loadImage = (url) => {
-  loadImage.cache = {}
-  return new Promise((resolve) => {
-    map.loadImage(url, (error, image) => {
-      if (error) throw new Error(error)
-      const reductionSize = 1
-      const outputWidth = image.width / reductionSize
-      const outputHeight = image.height / reductionSize
-      const canvas = document.createElement('canvas')
-      canvas.width = outputWidth
-      canvas.height = outputHeight
-      const ctx = canvas.getContext('2d')
-      ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, outputWidth, outputHeight)
-      resolve(ctx.getImageData(0, 0, outputWidth, outputHeight))
-    })
-  })
-}
-
-const loadFlagImage = async (event) => {
-  if (!/^flags\//.test(event.id)) return
-  const imageUrl = `${baseUrl}/days/12/${event.id}.gif`
-  const image = await cacheLoadImage(imageUrl)
-  if (!map.getImage(event.id)) {
-    map.addImage(event.id, image)
-  }
-}
+const apiKey = AWS_LOCATIONSERVICE_APIKEY
+const mapName = 'EsriImagery'
+const region = 'ap-northeast-1'
 
 onMounted(async () => {
   const params = new URLSearchParams(location.search)
@@ -172,20 +84,37 @@ onMounted(async () => {
   maplibregl.addProtocol('color', colorProtocol)
   map = new maplibregl.Map({
     container: mapElem.value,
-    style,
+    style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor?key=${apiKey}`,
     center: [135, 37],
     zoom: 4,
-    pitch: 40,
+    pitch: 50,
     hash: true,
   })
 
-  if (params.has('performance')) {
-    setTimeout(() => {
-      testCount.value = 0
-    }, 3000)
-  }
+  map.on('load', () => {
+    map.addSource('dem', {
+      type: 'raster-dem',
+      tiles: ['dem://https://tiles.gsj.jp/tiles/elev/mixed/{z}/{y}/{x}.png'],
+      tileSize: 256,
+      maxzoom: 17,
+    })
+    map.setTerrain({
+      source: 'dem',
+      exaggeration: 10,
+    })
+    // map.addControl(
+    //  new maplibregl.TerrainControl({
+    //    source: 'dem',
+    //    exaggeration: 10,
+    //  }), 'bottom-right'
+    // )
 
-  map.on('styleimagemissing', loadFlagImage)
+    if (params.has('performance')) {
+      setTimeout(() => {
+        testCount.value = 0
+      }, 3000)
+    }
+  })
 })
 </script>
 
