@@ -84,9 +84,9 @@ onMounted(async () => {
   map = new maplibregl.Map({
     container: mapElem.value,
     style,
-    center: [-60, -20],
-    zoom: 2.6,
-    bearing: -30,
+    center: [-61, -17],
+    zoom: 2.7,
+    bearing: -35,
     customAttribution: [
       '<a href="https://www.mofa.go.jp/mofaj/kids/kokki/k_latinamerica.html" target="_blank">国旗：外務省(Ministry of Foreign Affairs of Japan)</a>',
     ],
