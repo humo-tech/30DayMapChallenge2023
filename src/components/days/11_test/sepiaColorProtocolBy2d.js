@@ -15,7 +15,7 @@ const rgb2sepia = ([r, g, b, a]) => {
   const monoColor = [grayColor * sRedScale, grayColor * sGreenScale, grayColor * sBlueScale, a]
   return monoColor
 }
-export const protocol = (params, callback) => {
+export default (params, callback) => {
   const image = new Image()
 
   image.crossOrigin = 'anonymous'
