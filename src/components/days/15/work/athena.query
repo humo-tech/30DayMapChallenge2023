@@ -1,0 +1,9 @@
+# run this query until quadkey length 9 to 12
+select * from (
+SELECT BING_TILE_POLYGON(BING_TILE(substr(quadkey, 1, 12))) as wkt,
+	COUNT_IF(tags ['amenity'] =  'cafe') as cafe,
+	COUNT_IF(tags ['amenity'] = 'restaurant') as restaurants
+FROM daylight_osm_features
+WHERE release = 'v1.33'
+GROUP BY substr(quadkey, 1,12)
+) where cafe > 0
