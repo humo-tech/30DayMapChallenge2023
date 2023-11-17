@@ -164,7 +164,7 @@ onMounted(() => {
     // style: 'mapbox://styles/mapbox/dark-v11',
     style: 'mapbox://styles/mapbox/streets-v12',
     center: [139.65, 35.65],
-    zoom: 9,
+    zoom: 11,
     pitch: 0,
     hash: true,
     language: 'ja',
