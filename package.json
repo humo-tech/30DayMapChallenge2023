@@ -23,6 +23,7 @@
     "astro": "^3.4.0",
     "dayjs": "^1.11.10",
     "mapbox-gl": "^2.15.0",
+    "mapbox-gl-3.0.0-rc.2": "npm:mapbox-gl@^3.0.0-rc.2",
     "maplibre-gl": "^3.5.2",
     "pmtiles": "^2.11.0",
     "three": "^0.158.0",
