@@ -40,7 +40,7 @@ onMounted(() => {
   map.on('style.load', () => {
     map.setConfigProperty('basemap', 'lightPreset', 'night')
     map.addLayer(cloudLayer)
-    rotateCamera(0)
+    // rotateCamera(0)
   })
   map.on('click', () => {
     // animFlag.value = !animFlag.value
