@@ -30,8 +30,8 @@ export class NoiseCloudLayer {
     }
     this.oct = options?.oct || 8
     this.alt = options?.alt || 0
-    this.opacity = options?.opacity || 0.7
-    this.contrast = options?.contrast || 0.3
+    this.opacity = options?.opacity ?? 0.7
+    this.contrast = options?.contrast ?? 0.3
     this.update = !options?.noUpdate
 
     this.positions = bbox.map((coord) => maplibregl.MercatorCoordinate.fromLngLat(coord))
@@ -107,5 +107,12 @@ export class NoiseCloudLayer {
       gl.drawArrays(gl.TRIANGLES, 0, 6)
       if (this.update) this.map.triggerRepaint()
     }
+  }
+
+  updateOpacity(opacity) {
+    this.opacity = opacity
+    this.gl.useProgram(this.program)
+    this.gl.uniform1f(this.uOpacity, this.opacity)
+    this.map.triggerRepaint()
   }
 }
