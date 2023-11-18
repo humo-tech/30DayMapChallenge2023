@@ -64,6 +64,9 @@ float snoise(vec2 p, vec2 q, vec2 r) {
 }
 
 void main(void) {
+  if(u_opacity == 0.0) {
+    discard;
+  }
   // noise
   vec2 t = gl_FragCoord.xy + vec2(u_time * 10.0);
   float n = noise(t);

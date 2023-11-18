@@ -65,16 +65,17 @@ float snoise(vec2 p, vec2 q, vec2 r) {
 }
 
 void main(void) {
-  if(v_opacity > 0.0) {
-    // noise
-    vec2 t = gl_FragCoord.xy + vec2(v_time * 10.0);
-    float n = noise(t);
-
-    // seamless noise
-    //const float map = 256.0;
-    //vec2 t = mod(gl_FragCoord.xy + vec2(v_time * 10.0), map);
-    //float n = snoise(t, t / map, vec2(map));
-  
-    fragColor = vec4(vec3(n) * v_contrast, v_opacity);
+  if(v_opacity == 0.0) {
+    discard;
   }
+  // noise
+  vec2 t = gl_FragCoord.xy + vec2(v_time * 10.0);
+  float n = noise(t);
+
+  // seamless noise
+  //const float map = 256.0;
+  //vec2 t = mod(gl_FragCoord.xy + vec2(v_time * 10.0), map);
+  //float n = snoise(t, t / map, vec2(map));
+  
+  fragColor = vec4(vec3(n) * v_contrast, v_opacity);
 }
