@@ -7,6 +7,7 @@ import { NoiseCloudLayer } from './NoiseCloudLayer'
 
 let map
 const animFlag = ref(true)
+const cloudOpacity = ref(0.3)
 const mapElem = ref(null)
 mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN
 
@@ -19,6 +20,13 @@ function rotateCamera(timestamp) {
 }
 
 onMounted(() => {
+  const bbox = [
+    { lng: 139.3, lat: 36.2 },
+    { lng: 140.3, lat: 36.2 },
+    { lng: 140.3, lat: 35.2 },
+    { lng: 139.3, lat: 35.2 },
+  ]
+  const cloudLayer = new NoiseCloudLayer('cloud0', bbox, { alt: 734, opacity: cloudOpacity.value, contrast: 0.6 })
   map = new mapboxgl.Map({
     container: mapElem.value,
     style: 'mapbox://styles/mapbox/standard',
@@ -29,19 +37,15 @@ onMounted(() => {
     // hash: true,
     projection: 'mercator',
   })
-  const bbox = [
-    { lng: 139.3, lat: 36.2 },
-    { lng: 140.3, lat: 36.2 },
-    { lng: 140.3, lat: 35.2 },
-    { lng: 139.3, lat: 35.2 },
-  ]
   map.on('style.load', () => {
     map.setConfigProperty('basemap', 'lightPreset', 'night')
-    map.addLayer(new NoiseCloudLayer('cloud0', bbox, { alt: 734, opacity: 0.3, contrast: 0.6 }))
-    // rotateCamera(0)
+    map.addLayer(cloudLayer)
+    rotateCamera(0)
   })
   map.on('click', () => {
-    animFlag.value = !animFlag.value
+    // animFlag.value = !animFlag.value
+    cloudOpacity.value = cloudOpacity.value === 0 ? 0.3 : 0
+    cloudLayer.updateOpacity(cloudOpacity.value)
   })
 })
 </script>
@@ -56,4 +60,3 @@ onMounted(() => {
   height: 100%;
 }
 </style>
-./NoiseCloudLayer
