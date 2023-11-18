@@ -108,4 +108,11 @@ export class NoiseCloudLayer {
       if (this.update) this.map.triggerRepaint()
     }
   }
+
+  updateOpacity(opacity) {
+    this.opacity = opacity
+    this.gl.useProgram(this.program)
+    this.gl.uniform1f(this.uOpacity, this.opacity)
+    this.map.triggerRepaint()
+  }
 }
