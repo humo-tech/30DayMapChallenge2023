@@ -21,6 +21,7 @@
     "@deck.gl/layers": "^8.7.9",
     "@deck.gl/mapbox": "^8.7.9",
     "astro": "^3.4.0",
+    "cesium": "^1.111.0",
     "csv2geojson": "^5.1.2",
     "dayjs": "^1.11.10",
     "mapbox-gl": "^2.15.0",
@@ -28,6 +29,7 @@
     "maplibre-gl": "^3.5.2",
     "pmtiles": "^2.11.0",
     "three": "^0.158.0",
+    "vite-plugin-cesium": "^1.2.22",
     "vue": "^3.3.7"
   },
   "devDependencies": {

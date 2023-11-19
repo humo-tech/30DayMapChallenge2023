@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config'
 import vue from '@astrojs/vue'
 import sitemap from '@astrojs/sitemap'
+import cesium from 'vite-plugin-cesium'
 
 import mdx from '@astrojs/mdx'
 
@@ -12,4 +13,7 @@ export default defineConfig({
     host: '0.0.0.0',
   },
   integrations: [vue(), sitemap(), mdx()],
+  vite: {
+    plugins: [cesium()],
+  },
 })
