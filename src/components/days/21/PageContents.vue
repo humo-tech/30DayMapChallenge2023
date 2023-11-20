@@ -51,7 +51,7 @@ onMounted(() => {
       type: 'raster',
       tiles: ['https://humo.tech/30daymapchallenge/fuji/tiles/{z}/{x}/{y}.png'],
       tileSize: 256,
-      attribution: '<a href="https://apps.sentinel-hub.com/eo-browser/">Senginel2</a>',
+      attribution: '<a href="https://apps.sentinel-hub.com/eo-browser/">Sentinel2</a>',
       maxzoom: 14,
     })
     map.addLayer({
