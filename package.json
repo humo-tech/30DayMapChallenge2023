@@ -29,6 +29,7 @@
     "maplibre-gl": "^3.5.2",
     "pmtiles": "^2.11.0",
     "three": "^0.158.0",
+    "tweakpane": "^4.0.1",
     "vite-plugin-cesium": "^1.2.22",
     "vue": "^3.3.7"
   },
