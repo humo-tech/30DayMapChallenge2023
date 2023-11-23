@@ -1,15 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
-import {
-  Ion,
-  Viewer,
-  Terrain,
-  SkyAtmosphere,
-  Cesium3DTileset,
-  CzmlDataSource,
-  Cartesian3,
-  Math as CesiumMath,
-} from 'cesium'
+import { Ion, Viewer, SkyAtmosphere, Cesium3DTileset, CzmlDataSource, Cartesian3, Math as CesiumMath } from 'cesium'
 import 'cesium/Build/Cesium/Widgets/widgets.css'
 
 import { CESIUM_ION_ACCESS_TOKEN } from '@/consts'
