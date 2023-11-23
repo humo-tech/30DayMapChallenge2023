@@ -63,6 +63,7 @@ onMounted(async () => {
 <style scoped>
 .map {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 80px);
+  margin-top: 80px;
 }
 </style>
