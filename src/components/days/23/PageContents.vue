@@ -2,23 +2,17 @@
 import { onMounted } from 'vue'
 import {
   Ion,
-  defined,
   Viewer,
-  CesiumTerrainProvider,
-  Terrain,
-  SkyAtmosphere,
   Cesium3DTileset,
-  Cesium3DTileStyle,
-  CzmlDataSource,
-  Cartesian3,
-  Matrix4,
-  Math as CesiumMath,
+  Credit,
+  // Cartesian3,
+  // Matrix4,
+  // Math as CesiumMath,
 } from 'cesium'
 import 'cesium/Build/Cesium/Widgets/widgets.css'
 
 import { CESIUM_ION_ACCESS_TOKEN } from '@/consts'
 
-const baseUrl = import.meta.env.BASE_URL
 // Grant CesiumJS access to your ion assets
 Ion.defaultAccessToken = CESIUM_ION_ACCESS_TOKEN
 
@@ -27,6 +21,11 @@ onMounted(async () => {
   viewer = new Viewer('map', {
     // terrain: await Terrain.fromWorldTerrain(),
   })
+  viewer.creditDisplay.addStaticCredit(
+    new Credit(
+      '<a href="https://info.tokyo-digitaltwin.metro.tokyo.lg.jp/" target="_blank">東京都デジタルツインプロジェクト</a>'
+    )
+  )
 
   try {
     const tileset = await Cesium3DTileset.fromIonAssetId(2363900)
