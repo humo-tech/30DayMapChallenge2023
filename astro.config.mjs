@@ -14,6 +14,6 @@ export default defineConfig({
   },
   integrations: [vue(), sitemap(), mdx()],
   vite: {
-    plugins: [cesium({ rebuildCesium: true })],
+    plugins: [cesium({})],
   },
 })
