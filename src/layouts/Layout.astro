@@ -29,8 +29,8 @@ const thumbUrl = `https://humo-tech.github.io${baseUrl}/${thumb}`
     <meta name="twitter:title" content={`${title} | 30DayMapChallenge 2023`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={thumbUrl} />
-    {useCesium && <script src="cesium/Cesium.js" />}
-    {useCesium && <script src="cesium/Widgets/widgets.css" />}
+    {useCesium && <script src={`/${baseUrl}/cesium/Cesium.js`} />}
+    {useCesium && <script src={`/${baseUrl}/cesium/Widgets/widgets.css`} />}
   </head>
   <body>
     <slot />
