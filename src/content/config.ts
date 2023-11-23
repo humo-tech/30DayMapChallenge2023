@@ -8,6 +8,7 @@ const days = defineCollection({
     subtitle: z.string(),
     description: z.string(),
     thumb: z.string(),
+    useCesium: z.boolean().optional(),
   }),
 })
 // 3. コレクションを登録するために、単一の`collections`オブジェクトをエクスポート
