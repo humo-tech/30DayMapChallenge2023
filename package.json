@@ -20,6 +20,7 @@
     "@deck.gl/aggregation-layers": "^8.9.32",
     "@deck.gl/layers": "^8.7.9",
     "@deck.gl/mapbox": "^8.7.9",
+    "@maptiler/sdk": "^1.2.0",
     "astro": "^3.4.0",
     "cesium": "^1.111.0",
     "csv2geojson": "^5.1.2",
