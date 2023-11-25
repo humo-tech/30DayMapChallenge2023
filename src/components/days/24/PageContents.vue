@@ -4,7 +4,7 @@ import * as maptilersdk from '@maptiler/sdk'
 import { MAPTILER_API_KEY } from '@/consts'
 import '@maptiler/sdk/dist/maptiler-sdk.css'
 
-let map
+let map, popup
 const mapElem = ref(null)
 const selected = ref('both')
 
@@ -35,6 +35,7 @@ onMounted(async () => {
     navigationControl: 'bottom-right',
     geolocateControl: 'bottom-right',
   })
+  popup = new maptilersdk.Popup({ closeOnClick: false }).addTo(map)
   map.on('style.load', () => {
     map.addSource('point', {
       type: 'vector',
@@ -75,6 +76,12 @@ onMounted(async () => {
         'circle-color': '#fff',
         'circle-radius': 1,
       },
+    })
+
+    map.on('click', 'point1', (e) => {
+      const feature = e.features[0]
+      console.log(e.lngLat)
+      popup.setLngLat(e.lngLat).setHTML(feature.properties.name).addTo(map)
     })
   })
 })
