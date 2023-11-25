@@ -37,7 +37,7 @@ const getShiraseData = () => {
       return {
         points,
         line,
-        attribution: '<a href="https://ads.nipr.ac.jp/jareMap/#/64" target="_blank">JAREマップ</a>',
+        attribution: '<a href="https://www.nipr.ac.jp/antarctic/jare/map64.html" target="_blank">JAREマップ</a>',
       }
     })
 }
