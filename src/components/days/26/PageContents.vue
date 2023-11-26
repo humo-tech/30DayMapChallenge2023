@@ -61,7 +61,7 @@ const makeAmedasGeoJSON = (data, table) => {
  * アメダスデータのGeoJSONを取得する関数
  */
 const fetchAmedasData = async (targetDateTime) => {
-  const latestDataUrl = `https://www.jma.go.jp/bosai/amedas/data/map/${targetDateTime.format('YYYYMMDDhhmmss')}.json`
+  const latestDataUrl = `https://www.jma.go.jp/bosai/amedas/data/map/${targetDateTime.format('YYYYMMDDHHmmss')}.json`
   const [amedasData, amedasTable] = await Promise.all([
     fetch(latestDataUrl).then((res) => res.json()),
     fetchAmedasTable(),
@@ -152,6 +152,15 @@ onMounted(async () => {
   color: #fff;
   padding: 5px 15px;
   background-color: #0009;
+}
+@media screen and (max-width: 480px) {
+  .control {
+    left: 10px;
+  }
+  .time {
+    font-size: 24px;
+    border-radius: 5px;
+  }
 }
 .pane {
   position: absolute;
