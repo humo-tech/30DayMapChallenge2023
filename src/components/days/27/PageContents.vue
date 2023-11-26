@@ -5,17 +5,9 @@ import { MAPBOX_ACCESS_TOKEN } from '@/consts'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import dayjs from 'dayjs'
 import * as turf from '@turf/turf'
-import { Pane } from 'tweakpane'
 
-const PARAMS = {
-  temperature: 10,
-}
-
-const colors = ['#60d7ff', '#ff84dc']
-
-let map, pane
+let map
 const mapElem = ref(null)
-const paneElem = ref(null)
 mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN
 
 const datetime = ref('')
@@ -91,7 +83,7 @@ const initMainMap = (amedasData) => {
         type: 'geojson',
         data: amedasData,
         attribution:
-          '<a href="https://www.jma.go.jp/bosai/map.html#5/34.488/137.021/&elem=temp&contents=amedas&interval=60" target="_blank">JMA</a>',
+          '<a href="https://www.jma.go.jp/bosai/map.html#5/34.488/137.021/&elem=wind&contents=amedas&interval=60" target="_blank">JMA</a>',
       })
 
       map.addLayer({
@@ -99,24 +91,47 @@ const initMainMap = (amedasData) => {
         source: 'points',
         type: 'circle',
         paint: {
-          'circle-color': ['step', ['at', 0, ['get', 'temp']], colors[0], PARAMS.temperature, colors[1]],
+          'circle-color': '#fce955',
           'circle-stroke-color': '#000',
           'circle-stroke-width': 1,
-          'circle-radius': ['interpolate', ['exponential', 0.5], ['zoom'], 5, 3, 10, 7],
+          'circle-radius': [
+            'let',
+            'wind',
+            ['sqrt', ['at', 0, ['get', 'wind']]],
+            [
+              'interpolate',
+              ['exponential', 0.5],
+              ['zoom'],
+              5,
+              ['*', 3, ['var', 'wind']],
+              10,
+              ['*', 7, ['var', 'wind']],
+            ],
+          ],
         },
-        filter: ['!=', ['at', 0, ['get', 'temp']], null],
+        filter: ['!=', ['at', 0, ['get', 'wind']], null],
+      })
+      map.addLayer({
+        id: 'text',
+        source: 'points',
+        type: 'symbol',
+        layout: {
+          'text-field': [
+            'number-format',
+            ['at', 0, ['get', 'wind']],
+            { 'min-fraction-digits': 1, 'max-fraction-digits': 1 },
+          ],
+          'text-size': 12,
+        },
+        paint: {},
+        filter: ['all', ['!=', ['at', 0, ['get', 'wind']], null], ['>', ['at', 0, ['get', 'wind']], 2]],
+        minzoom: 7,
       })
     })
     resolve(map)
   })
 }
 onMounted(async () => {
-  // set pane
-  pane = new Pane({ container: paneElem.value })
-  pane.addBinding(PARAMS, 'temperature', { min: -20, max: 40, step: 1 }).on('change', (ev) => {
-    map.setPaintProperty('points', 'circle-color', ['step', ['at', 0, ['get', 'temp']], colors[0], ev.value, colors[1]])
-  })
-
   // set map
   const latestDateTime = await fetchCurrentAmedasTime()
   datetime.value = latestDateTime.format('YYYY-MM-DD HH:mm')
@@ -131,7 +146,6 @@ onMounted(async () => {
   <div class="control">
     <div class="time">{{ datetime }}</div>
   </div>
-  <div ref="paneElem" class="pane"></div>
 </template>
 
 <style scoped>
@@ -161,11 +175,5 @@ onMounted(async () => {
     font-size: 24px;
     border-radius: 5px;
   }
-}
-.pane {
-  position: absolute;
-  z-index: 10;
-  top: 100px;
-  right: 30px;
 }
 </style>
