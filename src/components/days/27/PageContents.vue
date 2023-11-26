@@ -91,7 +91,7 @@ const initMainMap = (amedasData) => {
         source: 'points',
         type: 'circle',
         paint: {
-          'circle-color': '#ff0',
+          'circle-color': '#fce955',
           'circle-stroke-color': '#000',
           'circle-stroke-width': 1,
           'circle-radius': [
