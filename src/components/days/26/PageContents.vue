@@ -87,7 +87,12 @@ const initMainMap = (amedasData) => {
         'star-intensity': 0.3,
       })
 
-      map.addSource('points', { type: 'geojson', data: amedasData })
+      map.addSource('points', {
+        type: 'geojson',
+        data: amedasData,
+        attribution:
+          '<a href="https://www.jma.go.jp/bosai/map.html#5/34.488/137.021/&elem=temp&contents=amedas&interval=60" target="_blank">JMA</a>',
+      })
 
       map.addLayer({
         id: 'points',
