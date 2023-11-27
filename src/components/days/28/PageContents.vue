@@ -65,7 +65,12 @@ onMounted(async () => {
     const geojson = await loadData()
     console.log(geojson)
     const totalHeight = 30000
-    map.addSource('city', { type: 'geojson', data: geojson })
+    map.addSource('city', {
+      type: 'geojson',
+      data: geojson,
+      attribution:
+        '<a href="https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&toukei=00200521&tstat=000001049104&cycle=0&tclass1=000001049105&tclass2val=0" target="_blank">令和2年国勢調査</a>',
+    })
     map.addLayer({
       id: 'primary',
       source: 'city',
