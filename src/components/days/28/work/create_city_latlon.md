@@ -1,0 +1,12 @@
+- download shape file from https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-v3_1.html
+- open shape file by QGIS
+- get mean latlon
+  - Vector
+  - Analysis Tools
+  - Mean Coordinates
+    - select 'N03_007' for Unique ID field
+  - Run
+- output geojson
+  - select layer
+  - right click
+  - export
