@@ -27,8 +27,10 @@ onMounted(async () => {
   map = new mapboxgl.Map({
     container: mapElem.value,
     style: 'mapbox://styles/mapbox/standard',
-    center: [135, 37],
-    zoom: 7,
+    center: [139.766736, 35.681339],
+    zoom: 15,
+    pitch: 71,
+    bearing: -75,
     hash: true,
     projection: 'mercator',
   })
