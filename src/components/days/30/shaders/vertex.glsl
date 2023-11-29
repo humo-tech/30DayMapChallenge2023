@@ -11,9 +11,9 @@ void main() {
     float _y = (a_pos.y - u_yrange.x) / (u_yrange.y - u_yrange.x);
     float _z = (a_pos.z - u_zrange.x) / (u_zrange.y - u_zrange.x);
 
-    float r = sin(u_time * _x);
-    float g = cos(u_time * _y);
-    float b = cos(u_time * _z) * sin(u_time * _x * _y);
+    float r = sin(u_time * 0.5 + _x);
+    float g = cos(u_time * 0.5 + _y + _z);
+    float b = cos(u_time * 0.5 + _z) * sin(u_time + (_x * _y));
 
     //v_color = vec3(_x, _y, _z);
     v_color = vec3(r, g, b);
