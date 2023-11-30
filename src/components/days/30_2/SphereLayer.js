@@ -29,7 +29,7 @@ export class SphereLayer {
     }
     this.update = !options.noUpdate
     this.center = options.center
-    this.radius = options.radius
+    this.radius = options.radius / 10000000
     this.density = options.density || 100
   }
 
@@ -47,22 +47,19 @@ export class SphereLayer {
     this.program = WebGLUtil.createProgram(this.gl, this.shaders.vertexSource, this.shaders.fragmentSource)
 
     this.aPos = gl.getAttribLocation(this.program, 'a_pos')
-    this.aColor = gl.getAttribLocation(this.program, 'a_color')
+    this.uOffset = gl.getUniformLocation(this.program, 'u_offset')
     this.uMatrix = gl.getUniformLocation(this.program, 'u_matrix')
     this.uTime = gl.getUniformLocation(this.program, 'u_time')
     this.uRadius = gl.getUniformLocation(this.program, 'u_radius')
 
-    const { position, range } = this.createGeometry(
-      this.density,
-      this.radius / 10000000,
-      mapboxgl.MercatorCoordinate.fromLngLat(this.center)
-    )
-    this.pointNumber = position.length
-    this.range = range
+    // this.sphereGeometory = this.createGeometry(this.density, this.density, this.radius / 10000000, [1.0, 1.0, 1.0, 1.0])
+    this.sphereGeometory = this.createGeometry(this.density, this.density, this.radius, [1.0, 1.0, 1.0, 1.0])
+    this.offset = mapboxgl.MercatorCoordinate.fromLngLat(this.center)
+    console.log(this.offset)
+    console.log(this.sphereGeometory.position)
 
-    this.buffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(position), gl.STATIC_DRAW)
+    this.vbo = WebGLUtil.createVBO(gl, this.sphereGeometory.position)
+    this.ibo = WebGLUtil.createIBO(gl, this.sphereGeometory.index)
   }
 
   /**
@@ -74,52 +71,53 @@ export class SphereLayer {
     if (this.program) {
       gl.useProgram(this.program)
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer)
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)
       gl.enableVertexAttribArray(this.aPos)
       gl.vertexAttribPointer(this.aPos, 3, gl.FLOAT, false, 0, 0)
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo)
 
+      gl.uniform3fv(this.uOffset, [this.offset.x, this.offset.y, this.offset.z])
       gl.uniformMatrix4fv(this.uMatrix, false, matrix)
       gl.uniform1f(this.uTime, (Date.now() - this.startTime) / 1000)
       gl.uniform1f(this.uRadius, this.radius)
-      gl.uniform2fv(this.uXrange, this.range.x)
-      gl.uniform2fv(this.uYrange, this.range.y)
-      gl.uniform2fv(this.uZrange, this.range.z)
-      gl.drawArrays(gl.POINTS, 0, this.pointNumber / 3)
+      gl.drawElements(gl.TRIANGLES, this.sphereGeometory.index.length, gl.UNSIGNED_SHORT, 0)
+
       if (this.update) this.map.triggerRepaint()
     }
   }
 
-  createGeometry(COUNT, RADIUS, OFFSET) {
+  createGeometry(row, column, rad, rgba) {
     const position = []
-    const xRange = [1, -1]
-    const yRange = [1, -1]
-    const zRange = [1, -1]
-    for (let i = 0; i < COUNT; ++i) {
-      // 変数 i を元にラジアンを求める（経度方向のラジアン）
-      const iRad = (i / COUNT) * Math.PI * 2.0
-      // 求めたラジアンからサインとコサインを作る
-      const x = Math.sin(iRad)
-      const z = Math.cos(iRad)
-      for (let j = 0; j < COUNT; ++j) {
-        // 変数 j を元にラジアンを求める（緯度方向のラジアン）
-        const jRad = (j / COUNT) * Math.PI
-        const r = Math.sin(jRad)
-        const y = Math.cos(jRad)
-        if (z > 0) {
-          // 計算結果を元に XYZ 座標を決める
-          const _x = x * RADIUS * r + OFFSET.x
-          const _y = y * RADIUS + OFFSET.y
-          const _z = z * RADIUS * r + OFFSET.z
-          if (_x < xRange[0]) xRange[0] = _x
-          if (_x > xRange[1]) xRange[1] = _x
-          if (_y < yRange[0]) yRange[0] = _y
-          if (_y > yRange[1]) yRange[1] = _y
-          if (_z < zRange[0]) zRange[0] = _z
-          if (_z > zRange[1]) zRange[1] = _z
-          position.push(_x, _y, _z)
-        }
+    const normal = []
+    const color = []
+    const texCoord = []
+    const index = []
+
+    console.log(row, column, rad, rgba)
+    for (let i = 0; i <= row; i++) {
+      const r = (Math.PI / row) * i
+      const ry = Math.cos(r)
+      const rr = Math.sin(r)
+      for (let j = 0; j <= column; j++) {
+        const tr = ((Math.PI * 2) / column) * j
+        const tx = rr * rad * Math.cos(tr)
+        const ty = ry * rad
+        const tz = Math.max(rr * rad * Math.sin(tr), -0.27 * rad) + 0.27 * rad
+        const rx = rr * Math.cos(tr)
+        const rz = rr * Math.sin(tr)
+        position.push(tx, ty, tz)
+        normal.push(rx, ry, rz)
+        color.push(...rgba)
+        texCoord.push(1 - (1 / column) * j, (1 / row) * i)
       }
     }
-    return { position, range: { x: xRange, y: yRange, z: zRange } }
+    for (let i = 0; i < row; i++) {
+      for (let j = 0; j < column; j++) {
+        const r = (column + 1) * i + j
+        index.push(r, r + 1, r + column + 2)
+        index.push(r, r + column + 2, r + column + 1)
+      }
+    }
+    return { position, normal, color, texCoord, index }
   }
 }
